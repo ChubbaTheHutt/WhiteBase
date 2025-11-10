@@ -2,7 +2,7 @@ import React from 'react';
 
 const Home = props => {
     return(
-        <h1></h1>
+        <h1>Placeholder</h1>
     )
 }
 
