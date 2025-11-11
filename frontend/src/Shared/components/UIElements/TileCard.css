@@ -1,0 +1,24 @@
+.tile-card-container {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(233, 233, 233);
+    width: 250px;
+    height: 400px;
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tile-card-container img {
+    border: solid black 1px;
+    width: 90%;
+    height: 300px;
+    border-radius: 5%;
+}
+
+.card-info {
+    margin-top: auto;
+}

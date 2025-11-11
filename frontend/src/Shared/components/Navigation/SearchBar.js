@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar = () => {
-    const [search, setSearch] = useState('');
-    const navigate = useNavigate();
-    const inputChangeHandler = e => {
-        setSearch(e.target.value);
-    }
-   
-    const submitSearchHandler = e => {
-        navigate('/search');
-    }
+const SearchBar = ({onSearch, onChange, value}) => {
+    
     // we'll add connection to backend later
+    const searchSubmitHandler = () => {
+        if(onSearch){
+            onSearch();
+        }
+    };
 
     return(
-        <form onSubmit={submitSearchHandler}>
-            <input name="cardName"
+        <form onSubmit={searchSubmitHandler}>
+            <input name="name"
                 placeholder="Search cards here"
+                value={value}
                 type="text"
-                onChange={inputChangeHandler} />
+                onChange={e => onChange(e.target.value)} />
         </form>
     )
 
