@@ -2,8 +2,22 @@ import React from 'react';
 
 const Register = () => {
 
-    return(
-        <h1></h1>
+    return (
+        <div>
+            <h2>Register</h2>
+            <input
+                name='email'
+                type='text'
+                placeholder='email' />
+            <input
+                name='password'
+                type='text'
+                placeholder='password' />
+            <input
+                name='displayname'
+                type='text'
+                placeholder='display name' />
+        </div>
     )
 }
 

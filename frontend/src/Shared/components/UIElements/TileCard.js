@@ -1,19 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 import './TileCard.css';
 
 const TileCard = props => {
 
     return(
-        <div className='tile-card-container'>
-            <img alt='Card cannot display' />
-            <div className='card-info'>
-                    title
-                <p>
-                    Subtitle    
-                </p>    
+
+        // hard coded data will be modified to be dynamic based on list of items mapped
+        <Link to='/card/u1'> 
+            <div className='tile-card-container'>
+                <img alt='Card cannot display' />
+                <div className='card-info'>
+                        title
+                    <p>
+                        Subtitle    
+                    </p>    
+                </div>
             </div>
-        </div>
+        </Link>
     );
 
 };

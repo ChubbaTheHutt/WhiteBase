@@ -12,7 +12,7 @@ const MainNavigation = props => {
     const [searchQuery, setSearchQuery] = new useState('');
 
     console.log('nope')
-    
+
     return(
         <div> 
             <MainHeader>
@@ -22,7 +22,7 @@ const MainNavigation = props => {
                         value={searchQuery}
                         onChange={setSearchQuery}
                         onSearch={() => navigate(`/search?name=${encodeURIComponent(searchQuery)}`)}
-                    /> }
+                /> }
                 <nav>
                     <NavLinks />
                 </nav>
