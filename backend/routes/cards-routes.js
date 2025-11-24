@@ -1,0 +1,21 @@
+//Iosefa Sunia - Web Prog Fall 2025
+const express = require('express');
+const { check } = require('express-validator');
+
+const cardsControllers = require('../controllers/cards-controllers');
+
+const router = express.Router();
+
+router.get('/', cardsControllers.getCards);
+router.get('/:cardId', cardsControllers.getCardById);
+
+router.post('/', cardsControllers.createCard);
+        //add validators
+
+router.patch('/:cardId', cardsControllers.updateCard);
+        //add validators
+
+router.delete('/:cardId', cardsControllers.deleteCard);
+        //add security somehow so DB is not affected so easily?
+
+module.exports = router;
