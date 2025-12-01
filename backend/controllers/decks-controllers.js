@@ -1,44 +1,131 @@
 //Iosefa Sunia - Web Prog Fall 2025
 const { validationResult } = require('express-validator');
+const { v4: uuid } = require('uuid');
+const Deck = require('../models/deck');
 
-const DUMMY_DECKS = [
-  {
-    deckId: "D-001",
-    name: "Blazing Assault",
-    cards: [
-      { cardId: "C-001", count: 3 },
-      { cardId: "C-007", count: 2 },
-      { cardId: "C-012", count: 1 }
-    ]
-  },
-  {
-    deckId: "D-002",
-    name: "Frozen Dominion",
-    cards: [
-      { cardId: "C-045", count: 2 },
-      { cardId: "C-052", count: 3 },
-      { cardId: "L-010", count: 1 }
-    ]
+//get all decks
+const getDecks = async (req, res, next) => {
+  try{
+      const decks = await Deck.find({});
+      res.status(200).json({ decks });
+  } catch (err){
+      res.status(500).json({message: err});
   }
-];
-
-
-const getDecks = async (res, req, next) => {
 }
 
-const getDecksByUserId = async (req, res, next) => {
+//get all decks created by a user
+const getDecksByUser = async (req, res, next) => {
+    const username = req.params.username;
+    try{
+        const decks = await Deck.find({creator: username});
+        res.status(200).json({ decks });
+    } catch (err){
+        res.status(500).json({message: err});
+    }
 }
 
-const getDeckById = async (req, res, next) => {}
+//get a single deck by its unique ID
+const getDeckById = async (req, res, next) => {
+    const deckId = req.params.did;
+    try{
+        const deck = await Deck.findOne({deckId: deckId});
+        res.status(200).json({ deck });
+    } catch (err){
+        res.status(500).json({message: err});
+    }
+}
 
-const createDeck = async (req, res, next) => {}
+//create a new deck
+const createDeck = async (req, res, next) => {
+    const { title, colors, deckList, creator } = req.body;
 
-const updateDeckInfo = async (req, res, next) => {}
+    const created_deck = new Deck({
+        deckId: uuid(),
+        title,
+        colors,
+        creator,
+        deckList
+    });
+    try{
+        await created_deck.save();
+    } catch (err){
+        return res.status(500).json({message: err});
+    }
+    res.status(201).json({deck: created_deck.toObject({getters: true})});
+}
 
-const addCardToDeck = async (req, res, next) => {}
+//update deck information (not contents like decklist)
+const updateDeckInfo = async (req, res, next) => {
+    const { deckId, title } = req.body;
+    try{
+      target = await Deck.findOneAndUpdate(
+        {deckId: deckId},
+        {title: title},
+        {new: true, runValidators: true}
+      );
+      res.status(200).json({message: 'Updated deck info.', deck: target});
+    } catch (err){
+        res.status(500).json({message: err});
+    }
+}
 
-const removeCardFromDeck = async (req, res, next) => {}
+//add a new card to a deck's decklist
+const addCardToDeck = async (req, res, next) => {
+  const {deckId, cardId, count} = req.body;
+  try{
+    target = await Deck.findOne({deckId: deckId});
+    if(!target){
+      return res.status(404).json({message: 'Deck not found.'});
+    }
+  } catch(err){
+    return res.status(500).json({message: err});
+  }
 
+  const existingEntry = target.deckList.find(c => c.cardId === cardId);
+  if(existingEntry){
+    existingEntry.count += count;
+  } else{
+    target.deckList.push({cardId: cardId, count: count});
+  }
+
+  try{
+    await target.save();
+    res.status(200).json({message: 'Added card to deck.', deck: target.deckList, cardId: cardId});
+  } catch(err){
+    res.status(500).json({message: err});
+  }
+}
+
+//modify the number of copies of a card in a deck's decklist (remove if count <=0)
+const modifyNumCopies = async (req, res, next) => {
+  const {deckId, cardId, delta} = req.body;
+  try{
+    target = await Deck.findOne({deckId: deckId});
+    if(!target){
+      return res.status(404).json({message: 'Deck not found.'});
+    }
+  }catch(err){
+    return res.status(500).json({message: err});
+  }
+
+  const cardEntry = target.deckList.find(c => c.cardId === cardId);
+  if(!cardEntry){
+    return res.status(404).json({message: 'Card not found in deck.'});
+  }
+  cardEntry.count += delta;
+  if(cardEntry.count <= 0){
+    target.deckList = target.deckList.filter(c => c.cardId !== cardId);
+  }
+
+  try{
+    await target.save();
+    res.status(200).json({message: 'Modified number of copies.', deck: target.deckList, cardId: cardId});
+  } catch(err){
+    res.status(500).json({message: err});
+  }
+}
+
+//delete a deck
 const deleteDeck = async (req, res, next) => {
     const deckId = req.body.deckId;
     try{
@@ -48,3 +135,12 @@ const deleteDeck = async (req, res, next) => {
         res.status(500).json({message: err});
     }
 };
+
+exports.getDecks = getDecks;
+exports.getDecksByUser = getDecksByUser;
+exports.getDeckById = getDeckById;
+exports.createDeck = createDeck;
+exports.updateDeckInfo = updateDeckInfo;
+exports.addCardToDeck = addCardToDeck;
+exports.modifyNumCopies = modifyNumCopies;
+exports.deleteDeck = deleteDeck;

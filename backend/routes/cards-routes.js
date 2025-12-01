@@ -11,11 +11,8 @@ router.get('/:cardId', cardsControllers.getCardById);
 
 router.post('/', cardsControllers.createCard);
         //add validators
-
 router.patch('/:cardId', cardsControllers.updateCard);
         //add validators
-
 router.delete('/:cardId', cardsControllers.deleteCard);
-        //add security somehow so DB is not affected so easily?
 
 module.exports = router;
