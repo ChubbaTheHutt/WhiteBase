@@ -125,11 +125,33 @@ const modifyNumCopies = async (req, res, next) => {
   }
 }
 
+//assumes frontend tracks state of deck, batch update decklist (IE replace existing decklist)
+const batchUpdateDeckList = async (req, res, next) => {
+    const {deckId, updates} = req.body;
+    try{
+        target = await Deck.findOne({deckId: deckId});
+        if(!target){
+            return res.status(404).json({message: 'Deck not found.'});
+        }
+    } catch(err){
+        return res.status(500).json({message: err});
+    }
+
+    target.deckList = updates;
+    try{
+        await target.save();
+        res.status(200).json({message: 'Batch updated decklist.', decklist: target.deckList});
+    } catch(err){
+        res.status(500).json({message: err});
+    }
+}
+
+
 //delete a deck
 const deleteDeck = async (req, res, next) => {
     const deckId = req.body.deckId;
     try{
-        target = DUMMY_DECKS.find(d => {d.deckId === deckId});
+        target = await Deck.findOneAndDelete({deckId: deckId});
         res.status(200).json({message: 'Deleted deck.', deck: target});
     } catch(err){
         res.status(500).json({message: err});
@@ -144,3 +166,4 @@ exports.updateDeckInfo = updateDeckInfo;
 exports.addCardToDeck = addCardToDeck;
 exports.modifyNumCopies = modifyNumCopies;
 exports.deleteDeck = deleteDeck;
+exports.batchUpdateDeckList = batchUpdateDeckList;

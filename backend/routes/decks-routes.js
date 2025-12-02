@@ -18,5 +18,6 @@ router.delete('/:did', decksControllers.deleteDeck);
 
 router.patch('/:did/decklist/add', decksControllers.addCardToDeck);
 router.patch('/:did/decklist/modify', decksControllers.modifyNumCopies);
+router.patch('/:did/decklist/batch', decksControllers.batchUpdateDeckList);
 
 module.exports = router;

@@ -9,10 +9,14 @@ const router = express.Router();
 router.get('/', cardsControllers.getCards);
 router.get('/:cardId', cardsControllers.getCardById);
 
-router.post('/', cardsControllers.createCard);
-        //add validators
+router.post('/', 
+        [
+                check('cost')
+        ],
+        cardsControllers.createCard);
+        
 router.patch('/:cardId', cardsControllers.updateCard);
-        //add validators
+        
 router.delete('/:cardId', cardsControllers.deleteCard);
 
 module.exports = router;

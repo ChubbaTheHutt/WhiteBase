@@ -1,60 +1,8 @@
 //Iosefa Sunia - Web Prog Fall 2025
 const { validationResult } = require('express-validator');
 
+const Card = require('../models/card');
 
-const DUMMY_CARDS = [
-  {
-    cardId: "C-001",
-    rarity: "Common",
-    level: 1,
-    cost: 2,
-    color: "Red",
-    type: "Unit",
-    desc: "A basic infantry soldier trained for quick deployment.",
-    zone: "Battlefield",
-    trait: ["Human", "Soldier"],
-    link: 0,
-    ap: 3,
-    hp: 5,
-    sourceTitle: "Starter Deck Alpha",
-    setOfOrigin: "Core Set"
-  },
-  {
-    cardId: "C-045",
-    rarity: "Rare",
-    level: 2,
-    cost: 4,
-    color: "Blue",
-    type: "Spell",
-    desc: "Freeze an enemy unit, preventing it from acting next turn.",
-    zone: "Hand",
-    trait: ["Ice", "Control"],
-    link: 1,
-    ap: 0,
-    hp: 0,
-    sourceTitle: "Frostbinder’s Codex",
-    setOfOrigin: "Glacial Dominion"
-  },
-  {
-    cardId: "L-010",
-    rarity: "Legendary",
-    level: 3,
-    cost: 6,
-    color: "Black",
-    type: "Unit",
-    desc: "A shadow creature that drains life from enemy units.",
-    zone: "Battlefield",
-    trait: ["Demon", "Shadow"],
-    link: 2,
-    ap: 7,
-    hp: 9,
-    sourceTitle: "Tome of Eternal Night",
-    setOfOrigin: "Umbral Eclipse"
-  }
-];
-
-
-//const Card = require('../models/card');
 const getCards = async (req, res, next) => {
     let cards;
 
@@ -62,7 +10,7 @@ const getCards = async (req, res, next) => {
     try {
 
         //put filters here
-        cards = await cards.find({})
+        cards = await Card.find({})
     } catch(err) {
         return res.status(500).json({ message: err });
     }
@@ -75,7 +23,7 @@ const getCards = async (req, res, next) => {
 const getCardById = async (req, res, next) => { 
     const cardId = req.param.cardId
     try {
-        target = await cards.findOne({cardId: cardId});
+        target = await Card.findOne({cardId: cardId});
         return res.status(200).json({ card: target.toObject({ getters: true }) });
     } catch(err) {
         return res.status(500).json({ message: err });
@@ -86,7 +34,9 @@ const getCardById = async (req, res, next) => {
 const createCard = async (req, res, next) => {
     const card = req.body;
     try {
-
+        const created_card = new Card(card);
+        await created_card.save();
+        res.status(201).json({ card: created_card.toObject({ getters: true }) });
     } catch(err) {
         res.status(500).json({ message: err });
     }
