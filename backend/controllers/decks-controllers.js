@@ -56,7 +56,8 @@ const createDeck = async (req, res, next) => {
 
 //update deck information (not contents like decklist)
 const updateDeckInfo = async (req, res, next) => {
-    const { deckId, title } = req.body;
+    const { title } = req.body;
+    const deckId = req.params.did;
     try{
       target = await Deck.findOneAndUpdate(
         {deckId: deckId},
@@ -71,7 +72,8 @@ const updateDeckInfo = async (req, res, next) => {
 
 //add a new card to a deck's decklist
 const addCardToDeck = async (req, res, next) => {
-  const {deckId, cardId, count} = req.body;
+  const deckId = req.params.did;
+  const {cardId} = req.body;
   try{
     target = await Deck.findOne({deckId: deckId});
     if(!target){
@@ -83,9 +85,9 @@ const addCardToDeck = async (req, res, next) => {
 
   const existingEntry = target.deckList.find(c => c.cardId === cardId);
   if(existingEntry){
-    existingEntry.count += count;
+    existingEntry.count += 1;
   } else{
-    target.deckList.push({cardId: cardId, count: count});
+    target.deckList.push({cardId: cardId, count: 1});
   }
 
   try{
@@ -98,7 +100,8 @@ const addCardToDeck = async (req, res, next) => {
 
 //modify the number of copies of a card in a deck's decklist (remove if count <=0)
 const modifyNumCopies = async (req, res, next) => {
-  const {deckId, cardId, delta} = req.body;
+  const deckId = req.params.did;
+  const {cardId, delta} = req.body;
   try{
     target = await Deck.findOne({deckId: deckId});
     if(!target){
@@ -127,7 +130,8 @@ const modifyNumCopies = async (req, res, next) => {
 
 //assumes frontend tracks state of deck, batch update decklist (IE replace existing decklist)
 const batchUpdateDeckList = async (req, res, next) => {
-    const {deckId, updates} = req.body;
+    const deckId = req.params.did
+    const { newList } = req.body;
     try{
         target = await Deck.findOne({deckId: deckId});
         if(!target){
@@ -137,7 +141,7 @@ const batchUpdateDeckList = async (req, res, next) => {
         return res.status(500).json({message: err});
     }
 
-    target.deckList = updates;
+    target.deckList = newList;
     try{
         await target.save();
         res.status(200).json({message: 'Batch updated decklist.', decklist: target.deckList});
@@ -149,7 +153,7 @@ const batchUpdateDeckList = async (req, res, next) => {
 
 //delete a deck
 const deleteDeck = async (req, res, next) => {
-    const deckId = req.body.deckId;
+    const deckId = req.params.did;
     try{
         target = await Deck.findOneAndDelete({deckId: deckId});
         res.status(200).json({message: 'Deleted deck.', deck: target});

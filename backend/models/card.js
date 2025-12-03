@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 const cardSchema = Schema(
     {
         cardId: {type: String, required: true, unique: true},
+        name: {type: String, required: true},
         rarity: {type: String},
         level: {type: Number},
         cost: {type: Number},

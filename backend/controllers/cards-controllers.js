@@ -6,11 +6,17 @@ const Card = require('../models/card');
 const getCards = async (req, res, next) => {
     let cards;
 
-    //const filters = req.body
-    try {
+    const filters = {};
 
-        //put filters here
-        cards = await Card.find({})
+    if (req.query.name) { filters.name = { $regex: req.query.name, $options: 'i' }; }
+    if (req.query.type) { filters.type = req.query.type; }
+    if (req.query.rarity) { filters.rarity = req.query.rarity; }
+    if (req.query.color) { filters.color = req.query.color; }
+    if (req.query.orderBy) { req.query.orderBy = req.query.orderBy; }
+
+    //IosefaSunia
+    try {
+        cards = await Card.find(filters)
     } catch(err) {
         return res.status(500).json({ message: err });
     }
@@ -47,11 +53,13 @@ const updateCard = async (req, res, next) => {
     const cardId = req.params.cardId;
     const updates = req.body;
     try {
-        target = await DUMMY_CARDS.findOneAndUpdate({cardId: cardId},
+        target = await Card.findOneAndUpdate({cardId: cardId},
             updates,
-        {new: true, runValidators: true, useFindAndModify: false});
+        {new: true, runValidators: true});
+
+        res.status(200).json({ message: "Card updated.", card: target });
     } catch(err) {
-        res.status(500).json({ message: err });
+        res.status(500).json({ message: "Could not update card." });
     };
 };
 
@@ -59,7 +67,7 @@ const updateCard = async (req, res, next) => {
 const deleteCard = async (req, res, next) => {
     const cardId = req.params.cardId;
     try {
-        target = await DUMMY_CARDS.findOneAndDelete({cardId: cardId});
+        target = await Card.findOneAndDelete({cardId: cardId});
         res.status(200).json({ message: 'Card deleted.', card: target });
     } catch(err) {
         res.status(500).json({ message: err });

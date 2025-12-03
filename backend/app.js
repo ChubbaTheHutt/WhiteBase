@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 
 
 //connect to DB
-const url = 'mongodb+srv://idsunia:Trollerman5@cluster0.ebycyla.mongodb.net/assignment9?retryWrites=true&w=majority&appName=Cluster0';
+const url = 'mongodb+srv://idsunia:Trollerman5@cluster0.ebycyla.mongodb.net/WhiteBase?retryWrites=true&w=majority&appName=Cluster0';
 Mongoose.connect(url)
     .then(() => {
         app.listen(3001);
