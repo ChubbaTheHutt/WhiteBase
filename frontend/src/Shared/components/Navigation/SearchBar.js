@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const SearchBar = ({onSearch, onChange, value}) => {
     
-    // we'll add connection to backend later
-    const searchSubmitHandler = () => {
+    const searchSubmitHandler = (e) => {
+        e.preventDefault();
+        //if onSearch present from props (meaning this search bar is integrated with filters) default to that
         if(onSearch){
             onSearch();
+        } else {
+            //otherwise navigate to search page with query
+            Navigate(`/cards?name=${value}`);
         }
     };
 
@@ -16,7 +20,7 @@ const SearchBar = ({onSearch, onChange, value}) => {
                 placeholder="Search cards here"
                 value={value}
                 type="text"
-                onChange={e => onChange(e.target.value)} />
+                onChange={onChange} />
         </form>
     )
 

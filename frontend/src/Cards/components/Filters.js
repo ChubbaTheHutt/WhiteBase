@@ -1,45 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import { useSearchParams } from 'react-router-dom';
-
-const Filters = () => {
-
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const [filters, setFilters] = useState({
-        name: searchParams.get('name'),
-        type: searchParams.get('type'),
-        color: searchParams.get('color'),
-        order: searchParams.get('order')
-    });
-
-    const filterSubmitHandler = e => {
-        setSearchParams(filters);
-    }
-
-    const filterChangeHandler = e => {
-        const {name, value} = e.target;
-         
-        setFilters({
-            ...filters,
-            [name]: value
-        })
-    }
-
-
+const Filters = props => {
     return(
-        <form className="card-search-filters" onSubmit={filterSubmitHandler}>
-            <select name="type" value={filters.type} onChange={filterChangeHandler}>
+        <form className="card-search-filters" onSubmit={props.onSubmit} onChange={props.onChange}>
+            <select name="type" defaultValue={props.filters.type}>
                 <option>Pilot</option>
                 <option>Suit</option>
                 <option>Base</option>
             </select>
-            <select name="color">
+            <select name="color" defaultValue={props.filters.color}>
                 <option>red</option>
                 <option>blue</option>
             </select>
-            <select name="order">
+            <select name="order" defaultValue={props.filters.order}>
                 <option>default</option>
             </select>
             <button type="submit">Apply Filters</button>
