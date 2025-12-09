@@ -13,7 +13,7 @@ const TileCard = props => {
             <div className='tile-card-container'>
                 <img alt='Card cannot display' />
                 <div className='card-info'>
-                        title
+                        {props.item.title}
                     <p>
                         Subtitle    
                     </p>    
