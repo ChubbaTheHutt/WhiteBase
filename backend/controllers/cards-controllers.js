@@ -8,12 +8,15 @@ const getCards = async (req, res, next) => {
 
     const filters = {};
 
+    console.log(req.query);
+
     if (req.query.name) { filters.name = { $regex: req.query.name, $options: 'i' }; }
     if (req.query.type) { filters.type = req.query.type; }
     if (req.query.rarity) { filters.rarity = req.query.rarity; }
     if (req.query.color) { filters.color = req.query.color; }
-    if (req.query.orderBy) { req.query.orderBy = req.query.orderBy; }
+    if (req.query.orderBy) { filters.orderBy = req.query.orderBy; }
 
+    console.log(filters);
     //IosefaSunia
     try {
         cards = await Card.find(filters)
@@ -74,8 +77,23 @@ const deleteCard = async (req, res, next) => {
     }
 };
 
+const proxyImages = async (req, res, next) => {
+    //this function will handle proxying images from external sources to avoid CORS issues
+    try {
+        const url = req.query.url;
+        const proxied_image = await fetch(url);
+        
+        res.setHeader('Content-Type', "image/webp");
+        res.sendFile(proxied_image);
+    } catch(err) {
+        res.status(500).json({ message: "Could not proxy image.", error: err } );
+    }
+};
+
+
 exports.getCards = getCards;
 exports.getCardById = getCardById;
 exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.deleteCard = deleteCard;
+exports.proxyImages = proxyImages;

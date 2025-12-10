@@ -4,10 +4,9 @@ import { Navigate, useNavigate } from 'react-router-dom';
 const SearchBar = ({onSearch, onChange, value}) => {
     
     const searchSubmitHandler = (e) => {
-        e.preventDefault();
         //if onSearch present from props (meaning this search bar is integrated with filters) default to that
         if(onSearch){
-            onSearch();
+            onSearch(e);
         } else {
             //otherwise navigate to search page with query
             Navigate(`/cards?name=${value}`);

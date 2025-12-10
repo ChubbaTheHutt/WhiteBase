@@ -15,11 +15,6 @@ const app = express();
 app.use(bp.json());
 app.use('/assets/images', express.static(path.join('assets', 'images')));
 
-//routes
-app.use('/api/cards', cardsRoutes);
-app.use('/api/decks', decksRoutes);
-app.use('/api/users', usersRoutes);
-
 //Listener
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,6 +27,10 @@ app.use((req, res, next) => {
     next();
 });
 
+//routes
+app.use('/api/cards', cardsRoutes);
+app.use('/api/decks', decksRoutes);
+app.use('/api/users', usersRoutes);
 
 //connect to DB
 const url = 'mongodb+srv://idsunia:Trollerman5@cluster0.ebycyla.mongodb.net/WhiteBase?retryWrites=true&w=majority&appName=Cluster0';

@@ -13,11 +13,13 @@ const CardSearch = props => {
 
     const [items, setItems] = useState();
 
+    //initialize filters from name, others blank
     const [filters, setFilters] = useState({
-        name: searchParams.get('name'),
-        type: searchParams.get('type'),
-        color: searchParams.get('color'),
-        order: searchParams.get('order')
+        name: searchParams.get('name') ? searchParams.get('name') : '',
+        type: '',
+        rarity: '',
+        color: '',
+        order: ''
     });
 
 
@@ -25,22 +27,27 @@ const CardSearch = props => {
         const fetchItems = async () => {
             try {
                 const queryParams = new URLSearchParams(filters).toString();
-                const responseData = await sendRequest(`http://localhost:5000/api/cards?${queryParams}`);
+                const responseData = await sendRequest(`http://localhost:3001/api/cards?${queryParams}`);
                 setItems(responseData.cards);
             } catch (err) {}
         };
         fetchItems();
+
+        console.log(items);
+
     }, [sendRequest, filters]);
 
-    console.log(items);
 
-    const search = e => {
+    const search = async (e) => {
         e.preventDefault();
         setSearchParams(filters);
 
-        
+        const queryParams = new URLSearchParams(filters).toString();
+        const responseData = await sendRequest(`http://localhost:3001/api/cards?${queryParams}`);
         //backend goes here
-        setItems([]);
+        setItems(responseData.cards);
+        console.log('Cards:', responseData.cards);
+        console.log('Items:', items);
     }
 
     const filterChangeHandler = e => {

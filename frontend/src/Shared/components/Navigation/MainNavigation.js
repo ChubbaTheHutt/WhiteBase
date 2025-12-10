@@ -11,7 +11,9 @@ const MainNavigation = props => {
 
     const [searchQuery, setSearchQuery] = new useState('');
 
-    console.log('nope')
+    const searchChangeHandler = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
     return(
         <div> 
@@ -20,7 +22,7 @@ const MainNavigation = props => {
                 { location.pathname !== '/search' && 
                     <SearchBar 
                         value={searchQuery}
-                        onChange={setSearchQuery}
+                        onChange={searchChangeHandler}
                         onSearch={() => navigate(`/search?name=${encodeURIComponent(searchQuery)}`)}
                 /> }
                 <nav>
