@@ -1,7 +1,16 @@
+.tile-card {
+    text-decoration:none;
+    color:rgb(0, 136, 247);
+}
+
+.tile-card:hover {
+    color: rgb(85, 0, 0);
+}
+
 .tile-card-container {
-    border: solid black 1px;
+    border: solid rgba(83, 83, 83, 0.199) 1px;
     border-radius: 10px;
-    background-color: rgb(233, 233, 233);
+    background-color: rgb(211, 211, 211);
     width: 250px;
     height: 400px;
     margin: 5px;
@@ -13,12 +22,13 @@
 }
 
 .tile-card-container img {
-    border: solid black 1px;
+    border: solid rgba(104, 104, 104, 0.329) 1px;
     width: 90%;
     height: 300px;
     border-radius: 5%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.card-info {
+.card-titles {
     margin-top: auto;
 }

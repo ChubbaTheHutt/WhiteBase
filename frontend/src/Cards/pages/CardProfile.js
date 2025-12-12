@@ -4,7 +4,7 @@ import './CardProfile.css';
 import { useParams } from 'react-router-dom';
 import { useHttpClient } from '../../Shared/hooks/http-hook';
 
-const CardProfile = props => {
+const CardProfile = () => {
     const {cardId} = useParams();
     const { isLoading, sendRequest } = useHttpClient();
 
@@ -30,10 +30,12 @@ const CardProfile = props => {
         console.log(card)
     }
 
+
+    const encodedImageUrl = encodeURIComponent(card.card.image);
     return(
         <div className='card-profile'>
             <div className='card-image-container'>
-                <img alt={card.card.image} />
+                <img alt={card.card.image} src={`http://localhost:3001/api/cards/proxy/image?url=${encodedImageUrl}`} />
             </div>
             <div className='card-info'>
                 <h2> {card.card.name} <br></br>{cardId}</h2>

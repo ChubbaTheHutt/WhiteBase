@@ -8,9 +8,15 @@
     position: fixed;
     top:0;
     left:0;
-    background: rgb(206, 206, 206);
+    background: rgb(53, 0, 0);
+}
+
+.header-title{
+    color: rgb(255, 255, 255);
+    padding-left: 20px;
 }
 
 main {
     margin-top: 4rem;
+    background-color:rgb(255, 255, 255);
 }

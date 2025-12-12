@@ -1,0 +1,22 @@
+/* styles.css */
+
+.styled-input {
+  width: 100%;               /* full width of parent */
+  max-width: 400px;          /* optional max width */
+  padding: 10px 15px;        /* inner spacing */
+  font-size: 16px;           /* text size */
+  border: 2px solid #ccc;    /* default border */
+  border-radius: 8px;        /* rounded corners */
+  outline: none;             /* remove default focus outline */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.styled-input:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.styled-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}

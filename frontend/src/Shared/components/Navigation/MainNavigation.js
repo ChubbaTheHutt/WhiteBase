@@ -18,7 +18,7 @@ const MainNavigation = props => {
     return(
         <div> 
             <MainHeader>
-                <h1>WHITEBASE</h1>
+                <h1 className="header-title">WHITEBASE</h1>
                 { location.pathname !== '/search' && 
                     <SearchBar 
                         value={searchQuery}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-
+import './SearchBar.css';
 const SearchBar = ({onSearch, onChange, value}) => {
     
     const searchSubmitHandler = (e) => {
@@ -15,7 +15,7 @@ const SearchBar = ({onSearch, onChange, value}) => {
 
     return(
         <form onSubmit={searchSubmitHandler}>
-            <input name="name"
+            <input name="name" className='styled-input'
                 placeholder="Search cards here"
                 value={value}
                 type="text"
