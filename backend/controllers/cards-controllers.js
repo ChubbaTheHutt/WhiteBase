@@ -30,12 +30,14 @@ const getCards = async (req, res, next) => {
 
 //retrieve a single card by its ID, which should be unique
 const getCardById = async (req, res, next) => { 
-    const cardId = req.param.cardId
+    console.log('params:', req.params)
+    const cardId = req.params.cardId
     try {
         target = await Card.findOne({cardId: cardId});
+        console.log(target)
         return res.status(200).json({ card: target.toObject({ getters: true }) });
     } catch(err) {
-        return res.status(500).json({ message: err });
+        return res.status(500).json({ message: `Could not return a card with that Id, ${req.param.cardId}`, error: err });
     }
 };
 
@@ -78,17 +80,26 @@ const deleteCard = async (req, res, next) => {
 };
 
 const proxyImages = async (req, res, next) => {
-    //this function will handle proxying images from external sources to avoid CORS issues
+    //this function will proxy images from the GCG website
     try {
         const url = req.query.url;
-        const proxied_image = await fetch(url);
-        
-        res.setHeader('Content-Type', "image/webp");
-        res.sendFile(proxied_image);
-    } catch(err) {
-        res.status(500).json({ message: "Could not proxy image.", error: err } );
+        if (!url) {
+            return res.status(400).json({ message: "No URL provided." });
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            return res.status(response.status).json({ message: 'Failed to fetch image.' });
+        }
+
+        const buffer = await response.arrayBuffer();
+        res.setHeader('Content-Type', response.headers.get('content-type'));
+        res.send(Buffer.from(buffer));
+    } catch (err) {
+        res.status(500).json({ message: "Could not proxy image.", error: err });
     }
 };
+
 
 
 exports.getCards = getCards;

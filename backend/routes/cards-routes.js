@@ -7,9 +7,11 @@ const cardsControllers = require('../controllers/cards-controllers');
 const router = express.Router();
 
 router.get('/', cardsControllers.getCards);
-router.get('/:cardId', cardsControllers.getCardById);
 
 router.get('/proxy/image', cardsControllers.proxyImages);
+
+router.get('/:cardId', cardsControllers.getCardById);
+
 
 
 router.post('/', 

@@ -1,15 +1,19 @@
 .card-profile {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px , 1fr))
+    display: flex;
+    flex-direction: row;
+    width: 1000px;
 }
 
 .card-image-container {
-    border: solid black 1px;
+    border: solid rgb(124, 124, 124) 1px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    box-sizing: border-box;
 
+    box-shadow: 5px 0px 12px rgba(0,0,0,0.15);
+    overflow:hidden;
+    background: lightblue;
     display:flex;
-
     align-items: center;
     justify-content: center;
 
@@ -18,9 +22,14 @@
 }
 
 .card-image-container img {
-    border: solid black 1px;
+    border: solid rgba(155, 155, 155, 0) 1px;
     border-radius: 3%;
+    box-sizing: border-box;
 
+    background: white;
+
+
+    box-shadow: 0px 3px 12px rgba(0,0,0,0.15);
     min-width: 250px;
     max-width: 500px;
     width: auto;
@@ -32,6 +41,12 @@
 }
 
 .card-info {
+    display:flex;
+    flex-direction: column;
+    box-sizing:border-box;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    
+    padding-left:1rem;
+
 }
