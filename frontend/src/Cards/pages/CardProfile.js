@@ -22,7 +22,7 @@ const CardProfile = () => {
         fetchCard();
 
         console.log(card)
-    }, [cardId, sendRequest]);
+    }, [sendRequest]);
 
     if(!card){
         return <div>404, Page Not Found. Please check your URL.</div>

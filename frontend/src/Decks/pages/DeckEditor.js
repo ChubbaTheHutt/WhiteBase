@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardsList from '../../Cards/components/CardsList';
+import { useParams } from 'react-router-dom';
+import { useHttpClient } from '../../Shared/hooks/http-hook';
 
 const DeckEditor = () => {
     
+    const {deckId} = useParams();
+    const [deck, setDeck] = useState();
+
+    const { isLoading, sendRequest } = useHttpClient();
+
+
     const [userDecks, setUserDecks] = useState([
             {
                 title: 'Red Green Zaku',
@@ -39,6 +47,13 @@ const DeckEditor = () => {
                 ]
             }
         ]);
+
+
+    useEffect(() => {
+        const fetchDeck
+
+
+    }, deck, sendRequest)
 
 
     return(
