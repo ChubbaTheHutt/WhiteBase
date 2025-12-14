@@ -46,7 +46,7 @@ function App() {
             {/* USER PROFILE, LIST VIEW OF CREATED DECKS */}
             <Route index element={<UserProfile />} />
             {/* VIEW SELECT DECK AND EDIT */}
-            <Route path="decks/:deckid" element={<DeckEditor />} />
+            <Route path="decks/:deckId" element={<DeckEditor />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/home" replace />} />

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './TileCard.css';
 
 const TileCard = props => {
-    console.log('Loading tilecard with props', props, '| cardI |', props.card.cardId)
+    console.log('Loading tilecard with props', props, '| cardId |', props.card.cardId)
 
     const encodedImageUrl = encodeURIComponent(props.card.image);
     return(

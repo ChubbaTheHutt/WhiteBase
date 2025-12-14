@@ -10,7 +10,7 @@ const deckSchema = Schema(
         title: {type: String, required: true, minLength: 5},
         colors: {type: [String]},
         creator: {type: String, required: true},
-        deckList: {type: [{_id:false, cardId: String, count: Number}], default: []}
+        deckList: {type: [{_id:false, cardId: String, cardType: String, count: Number}], default: []}
     }
 )
 

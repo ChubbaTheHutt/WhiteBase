@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './NavLinks.css'
 
 const NavLinks = props => {
 
@@ -11,16 +12,16 @@ const NavLinks = props => {
     return (
         <ul className="nav-links">
             <li>
-                <NavLink to="/home" className="nav-link" exact>HOME</NavLink>
+                <NavLink to="/home" className="nav-link">HOME</NavLink>
             </li>
             <li>
-                <NavLink to="/search" exact>CARD SEARCH</NavLink>
+                <NavLink to="/search">CARD SEARCH</NavLink>
             </li>
             <li>
-                <NavLink to="/user" exact>USER</NavLink>
+                <NavLink to="/user">USER</NavLink>
             </li>
             <li>
-                <NavLink to="/login" exact>LOGIN</NavLink>
+                <NavLink to="/login">LOGIN</NavLink>
             </li>
         </ul>
     )

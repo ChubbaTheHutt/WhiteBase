@@ -35,7 +35,7 @@ const CardSearch = props => {
 
         console.log(items);
 
-    }, [sendRequest, filters]);
+    }, [sendRequest]);
 
 
     const search = async (e) => {

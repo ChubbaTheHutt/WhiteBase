@@ -8,7 +8,10 @@
     position: fixed;
     top:0;
     left:0;
-    background: rgb(53, 0, 0);
+    background: rgb(24, 178, 255);
+
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
 .header-title{

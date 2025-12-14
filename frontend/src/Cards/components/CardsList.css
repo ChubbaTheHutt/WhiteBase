@@ -1,0 +1,23 @@
+.deck-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: 1fr auto;
+    gap: 20px;
+    margin: 20px;
+}
+
+.deck-list-grid__add-card {
+    font-size: 24px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.deck-list-grid__add-card form {
+    align-items:center;
+}
+
+.deck-list-grid__submit-changes {
+    align-items:center;
+    justify-content:center;
+}

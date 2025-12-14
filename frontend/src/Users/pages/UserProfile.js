@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import UserInfo from '../components/UserInfo';
 import DecksList from '../../Decks/components/DecksList';
 
-
+import { useHttpClient } from '../../Shared/hooks/http-hook';
 
 const UserProfile = () => {
 
     //user = getuser from context
+
+    const { isLoading, sendRequest } = useHttpClient();
+
+    
+    //later this will be context, but for testing is hardcoded
+    const [user, setUser] = useState(
+        {
+            username: 'idsunia',
+            userId: 'user1',
+            image: 'p 12e 1e rofile picture'
+        }
+    )
 
     const [userDecks, setUserDecks] = useState([
         {
@@ -46,13 +58,24 @@ const UserProfile = () => {
         }
     ]);
 
-    const [user, setUser] = useState(
-        {
-            name: 'Iosefa Sunia',
-            userId: 'user1',
-            image: 'p 12e 1e rofile picture'
-        }
-    )
+
+    useEffect(() => {
+        //fetch user decks from backend
+
+        const fetchUserDecks = async () => {
+            try {
+                const responseData = await sendRequest(`http://localhost:3001/api/decks/user/${user.username}`);
+                setUserDecks(responseData.decks);
+            } catch (err) {}
+        };
+        fetchUserDecks();
+
+    }, [sendRequest ]);
+
+    console.log('User Decks:', userDecks);
+
+
+
 
     return (
         <div>

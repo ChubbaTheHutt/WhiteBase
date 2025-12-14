@@ -1,12 +1,14 @@
 import React from 'react';
 
+import './Filters.css';
+
 const Filters = props => {
     return(
         <form className="card-search-filters" onSubmit={props.onSubmit} onChange={props.onChange}>
             <select name="type" value={props.filters.type}>
                 <option></option>
                 <option>Pilot</option>
-                <option>Suit</option>
+                <option>Unit</option>
                 <option>Base</option>
             </select>
             <select name="color" value={props.filters.color}>

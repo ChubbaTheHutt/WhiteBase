@@ -3,6 +3,9 @@ const express = require('express');
 const bp = require('body-parser');
 const Mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
+
+
 
 const cardsRoutes = require('./routes/cards-routes');
 const decksRoutes = require('./routes/decks-routes');
@@ -15,17 +18,25 @@ const app = express();
 app.use(bp.json());
 app.use('/assets/images', express.static(path.join('assets', 'images')));
 
-//Listener
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
 
-    res.setHeader("Access-Control-Allow-Headers", 
-        "Origin, X-Requested-With, Content-Type, Authorization");
+
+
+//Opting for CORS package to handle preflight options errors along with normal header setting
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+
+//     res.setHeader("Access-Control-Allow-Headers", 
+//         "Origin, X-Requested-With, Content-Type, Authorization");
     
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
 
-    next();
-});
+//     next();
+// });
 
 //routes
 app.use('/api/cards', cardsRoutes);
