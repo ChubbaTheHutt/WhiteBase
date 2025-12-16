@@ -56,7 +56,7 @@ const CardsList = ({ deckId, cards}) => {
             const responseData = await sendRequest(`http://localhost:3001/api/decks/${deckId}/decklist/batch`,
                 'PATCH',
                 JSON.stringify({
-                    deckList: newDeckList
+                    newList: newDeckList
                 }),
                 { 'Content-Type': 'application/json' }
             );

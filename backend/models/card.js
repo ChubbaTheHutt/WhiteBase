@@ -1,5 +1,4 @@
 //Iosefa Sunia - Web Prog Fall 2025
-
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 

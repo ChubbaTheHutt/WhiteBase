@@ -133,21 +133,19 @@ const batchUpdateDeckList = async (req, res, next) => {
     const deckId = req.params.did
     const { newList } = req.body;
     try{
-        target = await Deck.findOne({deckId: deckId});
+        const target = await Deck.findOne({deckId: deckId});
         if(!target){
             return res.status(404).json({message: 'Deck not found.'});
         }
+
+        //replace entire decklist and save
+        target.deckList = newList;
+        await target.save();
+        res.status(200).json({message: 'Batch updated decklist.', decklist: target.deckList});
     } catch(err){
         return res.status(500).json({message: err});
     }
 
-    target.deckList = newList;
-    try{
-        await target.save();
-        res.status(200).json({message: 'Batch updated decklist.', decklist: target.deckList});
-    } catch(err){
-        res.status(500).json({message: err});
-    }
 }
 
 
