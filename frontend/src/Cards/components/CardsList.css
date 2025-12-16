@@ -21,3 +21,10 @@
     align-items:center;
     justify-content:center;
 }
+
+.add-card-input {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+}
