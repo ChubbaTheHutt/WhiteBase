@@ -8,11 +8,18 @@ const cardSchema = Schema(
     {
         cardId: {type: String, required: true, unique: true},
         name: {type: String, required: true},
-        rarity: {type: String},
+        rarity: {type: String, 
+            enum:["C", "C+", "C++", "LR", "LR+", "LR++",
+                "R", "R+", "R++", "U", "U+", "U++"
+            ]},
         level: {type: Number},
         cost: {type: Number},
-        color: {type: String},
-        type: {type: String},
+        color: {type: String,
+            enum:["R", "B", "W", "G", "P"]
+        },
+        type: {type: String, 
+            enum:["Pilot", "Unit", "Base", "Resource", "Command"]
+        },
         desc: {type: String},
         zone: {type: String},
         trait: {type: String},

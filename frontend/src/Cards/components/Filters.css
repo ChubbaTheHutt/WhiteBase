@@ -57,3 +57,22 @@
   background-color: #a8b4c5;
   cursor: not-allowed;
 }
+
+.filters-select-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  color: #555555;
+}
+
+@media (max-width: 600px) {
+  .card-search-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-search-filters button {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
