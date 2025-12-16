@@ -1,18 +1,18 @@
 .tile-card {
     text-decoration:none;
-    color:rgb(0, 136, 247);
+    color:rgb(0, 57, 132);
 }
 
 .tile-card:hover {
-    color: rgb(85, 0, 0);
+    color: rgb(85, 33, 0);
 }
 
 .tile-card-container {
     border: solid rgba(83, 83, 83, 0.199) 1px;
     border-radius: 10px;
     background-color: rgb(211, 211, 211);
-    width: 250px;
-    height: 400px;
+    width: 250px; /* should be same size as grid piece in searchResults*/
+    height: 410px;
     margin: 5px;
     padding: 5px;
     display: flex;
@@ -24,11 +24,11 @@
 .tile-card-container img {
     border: solid rgba(104, 104, 104, 0.329) 1px;
     width: 90%;
-    height: 300px;
     border-radius: 5%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.card-titles {
-    margin-top: auto;
+
+.card-titles h3 {
+    margin-bottom: 0;
 }

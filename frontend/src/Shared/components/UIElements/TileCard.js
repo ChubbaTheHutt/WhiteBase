@@ -15,10 +15,7 @@ const TileCard = props => {
                 <img alt='Card cannot display' src={`http://localhost:3001/api/cards/proxy/image?url=${encodedImageUrl}`}/>
                 <div className='card-titles'>
                         <h3>{props.card.name}</h3>
-                        {props.card.cardId}
-                    <p>
-                            
-                    </p>    
+                        {props.card.cardId} 
                 </div>
             </div>
         </Link>
