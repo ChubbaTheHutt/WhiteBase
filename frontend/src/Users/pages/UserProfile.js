@@ -5,6 +5,8 @@ import DecksList from '../../Decks/components/DecksList';
 
 import { useHttpClient } from '../../Shared/hooks/http-hook';
 
+import './UserProfile.css';
+
 const UserProfile = () => {
 
     //user = getuser from context
@@ -78,7 +80,7 @@ const UserProfile = () => {
 
 
     return (
-        <div>
+        <div class="user-profile-page">
             <UserInfo user={user} />
 
             <div class='user-decks'>
