@@ -45,6 +45,15 @@ const CardProfile = () => {
                 <p>
                     <strong>Description:</strong>    
                     {card.card.desc}
+
+                    <br/><br/>
+                    <strong>Lv | Cost | AP | HP: </strong><br/>
+                    {card.card.level} | {card.card.cost} | {card.card.ap} | {card.card.hp}
+
+                    <br/><br/>
+
+                    <strong>Set of origin:</strong> {card.card.setOfOrigin} <br/>
+                    <strong>Media Origin:</strong> {card.card.sourceTitle}
                 </p>
             </div>
         </div>
