@@ -27,6 +27,18 @@ const getCards = async (req, res, next) => {
     res.json({ cards: cards.map(card => card.toObject({ getters: true })) });
 };
 
+const autocompleteCardNames = async (req, res, next) => {
+    let cards;
+
+    const nameQuery = req.query.name || '';
+    try {
+        cards = await Card.find({ name: { $regex: nameQuery, $options: 'i' } }).select('name').limit(10);
+    } catch(err) {
+        return res.status(500).json({ message: err });
+    }
+
+    res.json({ cards: cards.map(card => card.toObject({ getters: true })) });
+};
 
 //retrieve a single card by its ID, which should be unique
 const getCardById = async (req, res, next) => { 
@@ -101,7 +113,7 @@ const proxyImages = async (req, res, next) => {
 };
 
 
-
+exports.autocompleteCardNames = autocompleteCardNames;
 exports.getCards = getCards;
 exports.getCardById = getCardById;
 exports.createCard = createCard;

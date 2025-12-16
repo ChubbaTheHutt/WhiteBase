@@ -10,8 +10,9 @@ router.get('/', cardsControllers.getCards);
 
 router.get('/proxy/image', cardsControllers.proxyImages);
 
-router.get('/:cardId', cardsControllers.getCardById);
+router.get('/autocomplete', cardsControllers.autocompleteCardNames);
 
+router.get('/:cardId', cardsControllers.getCardById);
 
 
 router.post('/', 

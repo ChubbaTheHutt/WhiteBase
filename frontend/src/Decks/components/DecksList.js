@@ -4,7 +4,7 @@ import DeckItem from "./DeckItem";
 
 import './DecksList.css';
 
-const DecksList = ({decks}) => {
+const DecksList = ({decks, addNewDeckHandler}) => {
 
     return(
         <div className="decks-grid">
@@ -13,7 +13,7 @@ const DecksList = ({decks}) => {
             ))}
             
             <div className="deck-item-bubble">
-                <button>Add New Deck</button>
+                <button onClick={addNewDeckHandler}>Add New Deck</button>
             </div>
         </div>
     )

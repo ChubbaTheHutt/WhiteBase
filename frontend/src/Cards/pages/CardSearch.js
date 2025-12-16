@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import SearchBar from '../../Shared/components/Navigation/SearchBar';
 import Filters from '../components/Filters';
@@ -58,9 +58,10 @@ const CardSearch = props => {
             [name]: value
         })
 
-        console.log(filters);
+        console.log('Filters from CardSearch:',filters);
     }
 
+    
     return(
         <div>
             <SearchBar  onSearch={search} onChange={filterChangeHandler} value={filters.name}/>
