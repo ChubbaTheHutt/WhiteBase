@@ -16,7 +16,10 @@ router.get('/:cardId', cardsControllers.getCardById);
 
 router.post('/', 
         [
-                check('cost')
+                check('cardId').not().isEmpty(),
+                check('name').not().isEmpty(),
+                check('rarity').not().isEmpty(),
+                check('type').not().isEmpty()
         ],
         cardsControllers.createCard);
         
