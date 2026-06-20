@@ -1,19 +1,16 @@
-from playwright.sync_api import sync_playwright, Playwright, Locator, Page
+from playwright.sync_api import sync_playwright, Playwright, Locator, Page, Frame
 
-
-
-
-def card_extraction(card: Locator, page: Locator):
+def card_extraction(card_frame : Frame):
     print('LOG: attempting card extraction...')
-    page.wait_for_load_state('domcontentloaded')
-    card_name = card.locator('.cardName').inner_text()
-    print(card_name)
+    
+    card_name = card_frame.locator('.cardName')
+    print(card_name.inner_text())
 
 def pagination(page: Locator):
     page_cards = page.locator('li.cardItem')
     print(page_cards.count())
 
-    page.wait_for_load_state('domcontentloaded')
+    #page.wait_for_load_state('domcontentloaded')
     
     visible_page_cards = page_cards.filter(visible = True)
     print(visible_page_cards.count())
@@ -23,10 +20,12 @@ def pagination(page: Locator):
         visible_page_cards.nth(i).click()
 
         #card_extraction - pass popup element
-        card_extraction(page.locator('div.cardDetailPageContent'), page)
+        card_frame = page.frame_locator('iframe.fancybox-iframe')
+        print('Card popup handle:', card_frame)
+        card_extraction(card_frame)
 
         #close card popup
-        page.locator('div.detailBg').click()
+        page.locator('.fancybox-button--close').click()
 
 def run(playwright: Playwright):
     start_url = "https://www.gundam-gcg.com/en/cards/index.php"
