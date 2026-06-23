@@ -6,6 +6,20 @@ def card_extraction(card_frame : Frame):
     card_name = card_frame.locator('.cardName')
     print(card_name.inner_text())
 
+    card_rarity = card_frame.locator('.rarity')
+    card_id = card_frame.locator('.cardNo')
+
+    data = f'''card_id: {card_id},
+    card_name: {card_name},
+    rarity: {card_rarity}'''
+    
+
+    #in the gcg website, there are
+    #11 divs with classname dataTit (label) and 12 divs with dataTxt (value)
+    #These are not labeled uniquely so we must manually manage each one during extraction
+    #The 12th dataTxt is wrapped in .overview div, thus we can separate that from the others.
+    
+
 def pagination(page: Locator):
     page_cards = page.locator('li.cardItem')
     print(page_cards.count())
