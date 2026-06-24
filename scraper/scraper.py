@@ -1,7 +1,9 @@
 from playwright.sync_api import sync_playwright, Playwright, Locator, Page, Frame
 
+import json
+
 def card_extraction(card_frame : Frame):
-    print('LOG: attempting card extraction...')
+    print('LOG:\t Attempting card extraction...')
     
     card_name = card_frame.locator('.cardName')
     print(card_name.inner_text())
@@ -9,15 +11,51 @@ def card_extraction(card_frame : Frame):
     card_rarity = card_frame.locator('.rarity')
     card_id = card_frame.locator('.cardNo')
 
-    data = f'''card_id: {card_id},
-    card_name: {card_name},
-    rarity: {card_rarity}'''
-    
 
     #in the gcg website, there are
     #11 divs with classname dataTit (label) and 12 divs with dataTxt (value)
     #These are not labeled uniquely so we must manually manage each one during extraction
-    #The 12th dataTxt is wrapped in .overview div, thus we can separate that from the others.
+
+    data_rows = card_frame.locator('.dataTxt')
+
+    data = [];
+    for i in range(data_rows.count()):
+        data.append(data_rows.nth(i).inner_text())
+        
+    #nth 0 = level
+    #nth 1 = color
+    #nth 2 = ...
+
+    
+    level = data[0]
+    cost = data[1]
+    color = data[2]
+    card_type = data[3]
+    description = data[4]
+    zone = data[5]
+    trait = data[6]
+    link = data[7]
+    ap = data[8]
+    hp = data[9]
+    source = data[10]
+    origin_set = data[11]
+    
+    print("\nCard Name:", card_name.inner_text(),
+          "\nCard ID:", card_id.inner_text(),
+          "\nRarity:", card_rarity.inner_text(),
+          "\nLevel:", level,
+          "\nCost:", cost,
+          "\nColor:", color,
+          "\nCard Type:", card_type,
+          "\nDescription:", description,
+          "\nZone:", zone,
+          "\nTrait:", trait,
+          "\nLink:", link,
+          "\nAp:", ap,
+          "\nHp:", hp,
+          "\nSource:", source,
+          "\nSet of Origin:", origin_set)
+
     
 
 def pagination(page: Locator):
@@ -30,12 +68,12 @@ def pagination(page: Locator):
     print(visible_page_cards.count())
 
     for i in range(visible_page_cards.count()):
-        print('LOG: Moving to card', i, 'on page')
+        print('LOG:\t Moving to card', i, 'on page')
         visible_page_cards.nth(i).click()
 
         #card_extraction - pass popup element
         card_frame = page.frame_locator('iframe.fancybox-iframe')
-        print('Card popup handle:', card_frame)
+        print('LOG:\t CARD POPUP HANDLE - ', card_frame)
         card_extraction(card_frame)
 
         #close card popup
