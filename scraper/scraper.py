@@ -11,6 +11,11 @@ def card_extraction(card_frame : Frame):
     card_rarity = card_frame.locator('.rarity')
     card_id = card_frame.locator('.cardNo')
 
+    #Card Image
+    card_img = card_frame.locator('xpath=/html/body/main/article/div[1]/div[3]/div/div/div/img').get_attribute('src') #image rel path
+    img_base_pth = 'https://www.gundam-gcg.com/en/' 
+    card_img = img_base_pth + card_img.lstrip('./')                                               #add image base path
+    
 
     #in the gcg website, there are
     #11 divs with classname dataTit (label) and 12 divs with dataTxt (value)
@@ -42,6 +47,7 @@ def card_extraction(card_frame : Frame):
     
     print("\nCard Name:", card_name.inner_text(),
           "\nCard ID:", card_id.inner_text(),
+          "\nCard Image Source:", card_img,
           "\nRarity:", card_rarity.inner_text(),
           "\nLevel:", level,
           "\nCost:", cost,
@@ -56,6 +62,27 @@ def card_extraction(card_frame : Frame):
           "\nSource:", source,
           "\nSet of Origin:", origin_set)
 
+    data_dict = {
+    "card_name": card_name.inner_text(),
+    "card_id": card_id.inner_text(),
+    "card_img_src": card_img,
+    "rarity": card_rarity.inner_text(),
+    "level": level,
+    "cost": cost,
+    "color": color,
+    "card_type": card_type,
+    "description": description,
+    "zone": zone,
+    "trait": trait,
+    "link": link,
+    "ap": ap,
+    "hp": hp,
+    "source": source,
+    "origin_set": origin_set,
+    }
+
+    return data_dict
+
     
 
 def pagination(page: Locator):
@@ -67,6 +94,8 @@ def pagination(page: Locator):
     visible_page_cards = page_cards.filter(visible = True)
     print(visible_page_cards.count())
 
+    extracted_page_cards = []
+
     for i in range(visible_page_cards.count()):
         print('LOG:\t Moving to card', i, 'on page')
         visible_page_cards.nth(i).click()
@@ -74,10 +103,16 @@ def pagination(page: Locator):
         #card_extraction - pass popup element
         card_frame = page.frame_locator('iframe.fancybox-iframe')
         print('LOG:\t CARD POPUP HANDLE - ', card_frame)
-        card_extraction(card_frame)
+        card = card_extraction(card_frame)
+    
+        extracted_page_cards.append(card)    
 
         #close card popup
         page.locator('.fancybox-button--close').click()
+
+    print('LOG:\t Dumping Card Data for page')
+    with open("cards.json", "a", encoding="utf-8") as cards_file:
+        json.dump(extracted_page_cards, cards_file, ensure_ascii=False, indent=4)
 
 def run(playwright: Playwright):
     start_url = "https://www.gundam-gcg.com/en/cards/index.php"
@@ -101,11 +136,6 @@ def run(playwright: Playwright):
         sets_list.nth(i).click()
 
         pagination(page)
-
-        #DOM updates, go extract cards
-        #pagination function?
-        #card cycling function?
-        #card extraction function?
         
         print(sets_list.nth(i).inner_text())
         
